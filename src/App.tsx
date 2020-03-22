@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './App.scss';
-import { AppState, changeNewUserName, addUser, selectUser, changeNewHobby, PassionLevel, addHobby } from '.';
+import { AppState } from './reducer';
+import { changeNewUserName, selectUser, fetchUsers, addNewUser } from './Users/actions';
+import { changeNewHobby, addNewHobby, fetchHobbies } from './Hobbies/actions';
+import { PassionLevel } from './Hobbies/hobby';
+
+const loadingLabel = 'Loading...';
 
 function App() {
   const users = useSelector((state: AppState) => state.users);
@@ -9,7 +14,18 @@ function App() {
   const newUserName = useSelector((state: AppState) => state.newUserName);
   const newHobby = useSelector((state: AppState) => state.newHobby);
   const selectedUser = useSelector((state: AppState) => state.selectedUser);
+  const isUsersLoading = useSelector((state: AppState) => state.isUsersLoading);
+  const isHobbiesLoading = useSelector((state: AppState) => state.isHobbiesLoading);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUsers());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    dispatch(fetchHobbies(selectedUser))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedUser])
+
   return (
     <div className='App'>
       User hobbies
@@ -22,9 +38,9 @@ function App() {
               value={newUserName}
               onChange={e => dispatch(changeNewUserName(e.currentTarget.value))}
             />
-            <button className='add-user' onClick={() => dispatch(addUser(newUserName, users.length + 1))}>Add</button>
+            <button className='add-user' onClick={() => dispatch(addNewUser(newUserName))}>Add</button>
           </div>
-          {users.map(user => (
+          {isUsersLoading ? loadingLabel : users.map(user => (
             <div
               onClick={() => dispatch(selectUser(user.id))}
               key={user.id}
@@ -74,17 +90,17 @@ function App() {
             <button
               className='add-hobby'
               disabled={!selectedUser}
-              onClick={() => selectedUser && dispatch(addHobby(
+              onClick={() => selectedUser && dispatch(addNewHobby(
                 selectedUser,
-                newHobby?.description || '',
                 newHobby?.passionLevel || 'Low',
+                newHobby?.description || '',
                 newHobby?.since || ''
               ))}
             >
               Add
             </button>
           </div>
-          {hobbies.filter(hobby => hobby.userId === selectedUser).map(hobby =>
+          {isHobbiesLoading ? loadingLabel : hobbies.filter(hobby => hobby.userId === selectedUser).map(hobby =>
             <div key={hobby.description+hobby.passionLevel+hobby.since}>{hobby.description}</div>
           )}
         </div>
