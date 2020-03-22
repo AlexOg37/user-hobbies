@@ -1,0 +1,39 @@
+.App {
+  .table {
+    max-height: 300px;
+    border: black 1px solid;
+    display: flex;
+    .user-list {
+      width: 40%;
+      border-right: black 1px solid;
+      .user-form {
+        display: flex;
+        * {
+          flex: 1;
+        }
+        button {
+          width: 100px;
+          flex: none;
+        }
+      }
+    }
+    .hobbies-list {
+      .hobby-form {
+        display: flex;
+        * {
+          flex: 1;
+        }
+        button {
+          width: 100px;
+          flex: none;
+        }
+      }
+      width: 60%;
+    }
+  }
+}
+
+.selected-user {
+  color: red;
+  font-weight: bold;
+}
