@@ -8,6 +8,7 @@ const Users = () => {
   const newUserName = useSelector((state: AppState) => state.newUserName);
   const selectedUser = useSelector((state: AppState) => state.selectedUser);
   const isUsersLoading = useSelector((state: AppState) => state.isUsersLoading);
+  const isUserNameInvalid = useSelector((state: AppState) => state.isUserNameInvalid);
   const users = useSelector((state: AppState) => state.users);
   useEffect(() => {
     dispatch(fetchUsers());
@@ -15,16 +16,21 @@ const Users = () => {
   }, []);
   const dispatch = useDispatch();
 
+  const handleAddUser = () => {
+    dispatch(addNewUser(newUserName));
+  }
+
   return (
     <div className='user-list'>
       <div className='user-form'>
         <input
+          type='text'
           placeholder='Enter user name'
-          className='user-name'
+          className={`user-name ${isUserNameInvalid ? 'invalid-field' : ''}`}
           value={newUserName}
           onChange={e => dispatch(changeNewUserName(e.currentTarget.value))}
         />
-        <button className='add-user' onClick={() => dispatch(addNewUser(newUserName))}>Add</button>
+        <button disabled={isUserNameInvalid} className='add-user' onClick={handleAddUser}>Add</button>
       </div>
       {isUsersLoading ? loadingLabel : users.map(user => (
         <div

@@ -21,6 +21,7 @@
 .App {
   margin: 10px;
   .table {
+    margin: 8px 0;
     max-height: 300px;
     border: black 1px solid;
     display: flex;
@@ -46,4 +47,8 @@
 .selected-user {
   color: red;
   font-weight: bold;
+}
+
+input[type=text].invalid-field {
+  border: 2px solid red;
 }

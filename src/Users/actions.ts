@@ -14,6 +14,16 @@ export const changeNewUserName = (name: string): ChangeNewUserNameAction => {
    }
 }
 
+export const INVALID_USER_NAME = 'INVALID_USER_NAME';
+interface InvalidUserNameAction {
+  type: typeof INVALID_USER_NAME
+}
+export const invalidUserName = (): InvalidUserNameAction => {
+  return {
+     type: INVALID_USER_NAME
+   }
+}
+
 export const SELECT_USER = 'SELECT_USER';
 interface SelectUserAction {
   type: typeof SELECT_USER
@@ -70,7 +80,7 @@ export const receiveUsers = (users: User[]): ReceiveUsersAction => {
 }
 
 export type UsersActions = RequestAddUserAction | SelectUserAction | ChangeNewUserNameAction
-  | RequestUsersAction | ReceiveUsersAction | ReceiveUserAction;
+  | RequestUsersAction | ReceiveUsersAction | ReceiveUserAction | InvalidUserNameAction;
 
 export const fetchUsers = (): ThunkAction<Promise<void>, {}, {}, UsersActions> =>
   async dispatch => {
@@ -81,6 +91,10 @@ export const fetchUsers = (): ThunkAction<Promise<void>, {}, {}, UsersActions> =
 
 export const addNewUser = (name: string): ThunkAction<Promise<void>, {}, {}, UsersActions> =>
   async dispatch => {
+    if (!name) {
+      dispatch(invalidUserName());
+      return;
+    }
     dispatch(requestAddUser());
     const user = await userService.addUser(Date.now(), name);
     dispatch(receiveUser(user));
