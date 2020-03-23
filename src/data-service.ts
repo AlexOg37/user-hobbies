@@ -37,9 +37,9 @@ export class FakeDataProvider implements DataProvider {
   async delete(uri: string): Promise<Response> {
     await this.fakeWait();
     if (uri.includes('/hobbies/')) {
-      const userId = parseInt(uri.replace('/hobbies/', '')) || 0;
+      const hobbyId = parseInt(uri.replace('/hobbies/', '')) || 0;
       const hobbies = (JSON.parse(sessionStorage.getItem('hobbies') || '[]') as Hobby[])
-        ?.filter(hobby => hobby.userId !== userId) || null;
+        ?.filter(hobby => hobby.id !== hobbyId) || null;
       sessionStorage.setItem('hobbies', JSON.stringify(hobbies))
       return Promise.resolve({ body: null, statusCode: 204 });
     }

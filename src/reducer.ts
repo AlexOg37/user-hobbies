@@ -1,7 +1,7 @@
 import { UsersActions, REQUEST_ADD_USER, CHANGE_NEW_USER_NAME, SELECT_USER, REQUEST_USERS, RECEIVE_USERS, RECEIVE_USER } from "./Users/actions";
 import { User } from "./Users/user";
 import { Hobby } from "./Hobbies/hobby";
-import { HobbiesActions, CHANGE_NEW_HOBBY, REQUEST_ADD_HOBBY, REQUEST_HOBBIES, RECEIVE_HOBBIES, RECEIVE_HOBBY } from "./Hobbies/actions";
+import { HobbiesActions, CHANGE_NEW_HOBBY, REQUEST_ADD_HOBBY, REQUEST_HOBBIES, RECEIVE_HOBBIES, RECEIVE_HOBBY, REQUEST_DELETE_HOBBY } from "./Hobbies/actions";
 
 export type AppState = {
   users: User[];
@@ -31,6 +31,7 @@ const reducer = (state: AppState = initialState, action: HobbiesActions | UsersA
       return {...state, selectedUser: action.payload, newHobby: undefined}
     case REQUEST_ADD_HOBBY:
     case REQUEST_HOBBIES:
+    case REQUEST_DELETE_HOBBY:
       return {...state, isHobbiesLoading: true}
     case REQUEST_ADD_USER:
     case REQUEST_USERS:

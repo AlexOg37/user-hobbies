@@ -58,8 +58,18 @@ export const receiveHobbies = (hobbies: Hobby[]): ReceiveHobbiesAction => {
    }
 }
 
+export const REQUEST_DELETE_HOBBY = 'REQUEST_DELETE_HOBBY';
+interface RequestDeleteHobbyAction {
+  type: typeof REQUEST_DELETE_HOBBY
+}
+export const requestDeleteHobby = (): RequestDeleteHobbyAction => {
+  return {
+     type: REQUEST_DELETE_HOBBY
+   }
+}
+
 export type HobbiesActions = RequestHobbiesAction | RequestAddHobbyAction | ReceiveHobbiesAction
-  | ChangeNewHobbyAction | ReceiveHobbyAction;
+  | ChangeNewHobbyAction | ReceiveHobbyAction | RequestDeleteHobbyAction;
 
 export const fetchHobbies = (userId: number | undefined): ThunkAction<Promise<void>, {}, {}, HobbiesActions> =>
   async dispatch => {
@@ -83,3 +93,13 @@ export const addNewHobby = (
     const hobby = await hobbyService.addHobby(Date.now(), userId, passionLevel, description, since);
     dispatch(receiveHobby(hobby));
   }
+
+export const deleteHobby = (hobbyId: number, userId: number): ThunkAction<Promise<void>, {}, {}, HobbiesActions> =>
+  async dispatch => {
+    dispatch(requestDeleteHobby());
+    await hobbyService.deleteHobby(hobbyId);
+    const hobbies = await hobbyService.getHobbiesForUser(userId);
+    dispatch(receiveHobbies(hobbies));
+  }
+
+  

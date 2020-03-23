@@ -1,33 +1,43 @@
+.user-form, .hobby-form, .hobby-row {
+  display: flex;
+
+  > * {
+    flex: 1;
+    margin: 0 4px;
+  }
+  > *:first-child {
+    margin-left: 0;
+  }
+  > *:last-child {
+    margin-right: 0;
+  }
+  button {
+    cursor: pointer;
+    width: 100px;
+    flex: none;
+  }
+}
+
 .App {
+  margin: 10px;
   .table {
     max-height: 300px;
     border: black 1px solid;
     display: flex;
+    .user-list, .hobbies-list {
+      padding: 8px;
+      > * {
+        margin: 4px 0;
+      }
+    }
     .user-list {
       width: 40%;
       border-right: black 1px solid;
-      .user-form {
-        display: flex;
-        * {
-          flex: 1;
-        }
-        button {
-          width: 100px;
-          flex: none;
-        }
+      > * {
+        cursor: pointer;
       }
     }
     .hobbies-list {
-      .hobby-form {
-        display: flex;
-        * {
-          flex: 1;
-        }
-        button {
-          width: 100px;
-          flex: none;
-        }
-      }
       width: 60%;
     }
   }

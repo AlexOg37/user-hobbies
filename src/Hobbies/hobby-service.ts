@@ -33,7 +33,7 @@ class HobbyService extends DataService {
 
   async deleteHobby(id: number): Promise<boolean> {
     try {
-      const response = await this.dataService.get(`/hobbies/${id}`);
+      const response = await this.dataService.delete(`/hobbies/${id}`);
       this.checkExpectedStatusCode(response, 204);
       return true;
     } catch (error) {
