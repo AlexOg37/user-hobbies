@@ -74,7 +74,7 @@ const Hobbies = () => {
         </button>
       </div>
       {isHobbiesLoading ? loadingLabel : hobbies.filter(hobby => hobby.userId === selectedUser).map(hobby =>
-        <HobbyRow hobby={hobby} onDeleteHobby={handleDeleteHobby} />
+        <HobbyRow key={hobby.id} hobby={hobby} onDeleteHobby={handleDeleteHobby} />
       )}
     </div>
   );  

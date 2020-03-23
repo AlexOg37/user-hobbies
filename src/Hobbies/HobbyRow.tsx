@@ -8,7 +8,7 @@ type Props = {
 }
 
 const HobbyRow: React.SFC<Props> = ({ hobby: { description, id, passionLevel, since }, onDeleteHobby }) =>
-  <div className='hobby-row' key={id}>
+  <div className='hobby-row'>
     <div className='passion-level'>{passionLevel}</div>
     <div className='user-hobby'>{description}</div>
     <div className='since-year'>{since}</div>
